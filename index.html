@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Experiments - Code Repository</title>
+</head>
+<body>
+    <div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <h1 style="text-align: center; margin-bottom: 30px;">ML & Data Science Experiments</h1>
+        
+        <p style="text-align: center; margin-bottom: 20px; padding: 15px; border: 1px solid black;">
+            <strong>Click</strong> on any experiment name to copy the code!
+        </p>
+
+        <div style="border: 1px solid black; padding: 15px; margin-bottom: 15px; cursor: pointer;" 
+             onclick="copyCode(this, 'code1')" 
+             onmouseover="this.style.backgroundColor='#f0f0f0'" 
+             onmouseout="this.style.backgroundColor='white'">
+            <div style="font-size: 1.1em; font-weight: bold; padding: 10px;">
+                1. Pre-processing of data to remove a column and fill missing values with mean
+            </div>
+            <textarea id="code1" style="position: absolute; left: -9999px;">from google.colab import drive
+drive.mount('/content/drive')
+
+%cd /content/drive/MyDrive/AI_ML/Dataset
+
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+import pandas as pd
+
+data_set = pd.read_csv('/content/drive/My Drive/AI_ML/Dataset/Dataset.csv')
+
+X = data_set.iloc[:,:-1].values
+print(X)
+
+Y = data_set.iloc[:,3].values
+
+print(Y)
+
+from sklearn.impute import SimpleImputer
+imputer= SimpleImputer(missing_values =np.nan, strategy='mean')
+#Fitting imputer object to the independent variables x.
+imputer= imputer.fit(X[:, 1:3])
+#Replacing missing data with the calculated mean value
+X[:, 1:3]= imputer.transform(X[:, 1:3])
+X[:, 1:3]</textarea>
+        </div>
+
+        <div style="border: 1px solid black; padding: 15px; margin-bottom: 15px; cursor: pointer;" 
+             onclick="copyCode(this, 'code2')" 
+             onmouseover="this.style.backgroundColor='#f0f0f0'" 
+             onmouseout="this.style.backgroundColor='white'">
+            <div style="font-size: 1.1em; font-weight: bold; padding: 10px;">
+                2. Label encoding for categorical data and train-test split
+            </div>
+            <textarea id="code2" style="position: absolute; left: -9999px;">from google.colab import drive
+drive.mount('/content/drive')
+
+%cd /content/drive/MyDrive/AI_ML/Dataset
+
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+import pandas as pd
+
+data_set = pd.read_csv('/content/drive/My Drive/AI_ML/Dataset/Dataset.csv')
+
+#Catgorical data
+#for Country Variable
+from sklearn.preprocessing import LabelEncoder
+label_encoder_x= LabelEncoder()
+X[:, 0]= label_encoder_x.fit_transform(X[:, 0])
+X
+
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test= train_test_split(X, Y, test_size= 0.2, random_state=0)
+x_train</textarea>
+        </div>
+
+        <div style="border: 1px solid black; padding: 15px; margin-bottom: 15px; cursor: pointer;" 
+             onclick="copyCode(this, 'code3')" 
+             onmouseover="this.style.backgroundColor='#f0f0f0'" 
+             onmouseout="this.style.backgroundColor='white'">
+            <div style="font-size: 1.1em; font-weight: bold; padding: 10px;">
+                3. Exploratory Data Analysis - Check and fill missing values
+            </div>
+            <textarea id="code3" style="position: absolute; left: -9999px;">from google.colab import drive
+drive.mount('/content/drive')
+
+%cd /content/drive/MyDrive/AI_ML/Dataset
+
+import pandas as pd
+import numpy as np
+# read datasdet using pandas
+df = pd.read_csv('/content/drive/My Drive/AI_ML/Dataset/Dataset.csv')
+df.head()
+
+df.shape
+
+df.describe()
+
+# information about the dataset
+df.info()
+
+df.nunique()
+
+df.isnull().sum()
+
+df["AGE"].fillna("No AGE", inplace = True)
+df.isnull().sum()
+
+mode = df['SALARY'].mode().values[0]
+df['SALARY']= df['SALARY'].replace(np.nan, mode)
+df.isnull().sum()</textarea>
+        </div>
+
+        <div style="border: 1px solid black; padding: 15px; margin-bottom: 15px; cursor: pointer;" 
+             onclick="copyCode(this, 'code4')" 
+             onmouseover="this.style.backgroundColor='#f0f0f0'" 
+             onmouseout="this.style.backgroundColor='white'">
+            <div style="font-size: 1.1em; font-weight: bold; padding: 10px;">
+                4. Exploratory Data Analysis - Histogram, Boxplot, and Scatter plot
+            </div>
+            <textarea id="code4" style="position: absolute; left: -9999px;">from google.colab import drive
+drive.mount('/content/drive')
+
+%cd /content/drive/MyDrive/AI_ML/Dataset
+
+import pandas as pd
+import numpy as np
+# read datasdet using pandas
+df = pd.read_csv('/content/drive/My Drive/AI_ML/Dataset/Dataset.csv')
+df.head()
+
+from sklearn.preprocessing import LabelEncoder
+# create an instance of LabelEncoder
+le = LabelEncoder()
+
+# fit and transform the "Senior Management"
+# column with LabelEncoder
+df['COUNTRY'] = le.fit_transform\
+	(df['COUNTRY'])
+df
+
+# importing packages
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.histplot(x='SALARY', data=df)
+plt.show()
+
+# importing packages
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.boxplot(x="SALARY", y='AGE', data=df)
+plt.show()
+
+sns.scatterplot( x="SALARY", y='COUNTRY', data=df,
+                hue='COUNTRY', size='PURCHASED')
+# Placing Legend outside the Figure
+plt.legend(bbox_to_anchor=(1, 1), loc=2)
+plt.show()</textarea>
+        </div>
+
+        <div style="border: 1px solid black; padding: 15px; margin-bottom: 15px; cursor: pointer;" 
+             onclick="copyCode(this, 'code5')" 
+             onmouseover="this.style.backgroundColor='#f0f0f0'" 
+             onmouseout="this.style.backgroundColor='white'">
+            <div style="font-size: 1.1em; font-weight: bold; padding: 10px;">
+                5. Linear Model for Prognosis - Finding model weights
+            </div>
+            <textarea id="code5" style="position: absolute; left: -9999px;">from google.colab import drive
+drive.mount('/content/drive')
+
+%cd drive/MyDrive/AI_ML/Prognosis/
+
+# Import the module 'LinearRegression' from sklearn
+from matplotlib import pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# Create an object of type LinearRegression
+model = LinearRegression()
+model
+
+# Import the load_data function from the utils module
+from utils import load_data
+
+# Generate features and labels using the imported function
+X, y = load_data(100)
+
+# View the features
+X.head()
+
+# Plot a histogram of the Age feature
+plt.xlabel('Age')
+X['Age'].hist();
+
+# Plot a histogram of the cholesterol feature
+plt.xlabel('Cholesterol')
+X['Cholesterol'].hist();
+
+#Fit the linear regression model
+model.fit(X, y)
+model
+
+# View the coefficients (weights) of the model
+model.coef_</textarea>
+        </div>
+
+        <div style="border: 1px solid black; padding: 15px; margin-bottom: 15px; cursor: pointer;" 
+             onclick="copyCode(this, 'code6')" 
+             onmouseover="this.style.backgroundColor='#f0f0f0'" 
+             onmouseout="this.style.backgroundColor='white'">
+            <div style="font-size: 1.1em; font-weight: bold; padding: 10px;">
+                6. Linear Model for Prognosis - Testing and accuracy evaluation
+            </div>
+            <textarea id="code6" style="position: absolute; left: -9999px;">from google.colab import drive
+drive.mount('/content/drive')
+
+%cd drive/MyDrive/AI_ML/Prognosis/
+
+# Import the module 'LinearRegression' from sklearn
+from matplotlib import pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# Create an object of type LinearRegression
+model = LinearRegression()
+model
+
+# Import the load_data function from the utils module
+from utils import load_data
+
+# Generate features and labels using the imported function
+X, y = load_data(100)
+
+# View the features
+X.head()
+
+# Plot a histogram of the diastolic blood pressure feature
+plt.xlabel('Diastolic_BP')
+X['Diastolic_BP'].hist();
+
+# Plot a histogram of the systolic blood pressure feature
+plt.xlabel('Systolic_BP')
+X['Systolic_BP'].hist();
+
+# Prediction using training and testing the model
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X[['Age']],X.Systolic_BP,train_size=0.8)
+
+X_test
+
+# Fit the linear regression model
+model.fit(X[['Age']],X.Systolic_BP)
+model
+
+model.predict([[60]])
+
+model.score(X_test,y_test)</textarea>
+        </div>
+
+        <div style="border: 1px solid black; padding: 15px; margin-bottom: 15px; cursor: pointer;" 
+             onclick="copyCode(this, 'code7')" 
+             onmouseover="this.style.backgroundColor='#f0f0f0'" 
+             onmouseout="this.style.backgroundColor='white'">
+            <div style="font-size: 1.1em; font-weight: bold; padding: 10px;">
+                7. Analysis of Atrial Fibrillation - CHADS-VASC Score
+            </div>
+            <textarea id="code7" style="position: absolute; left: -9999px;"># Complete the function that calculates the chads-vasc score.
+# Look for the # TODO comments to see which sections you should fill in.
+def chads_vasc_score(input_c, input_h, input_a2, input_d, input_s2, input_v, input_a, input_sc):
+    # congestive heart failure
+    coef_c = 1
+    # Coefficient for hypertension
+    coef_h = 1
+    # Coefficient for Age >= 75 years
+    coef_a2 = 2
+    # Coefficient for diabetes mellitus
+    coef_d = 1
+    # Coefficient for stroke
+    coef_s2 = 2
+    # Coefficient for vascular disease
+    coef_v = 1
+    # Coefficient for age 65 to 74 years
+    coef_a = 1
+    # TODO Coefficient for female
+    coef_sc = 1
+    # Calculate the risk score
+    risk_score = (input_c * coef_c) +\
+                 (input_h * coef_h) +\
+                 (input_a2 * coef_a2) +\
+                 (input_d * coef_d) +\
+                 (input_s2 * coef_s2) +\
+                 (input_v * coef_v) +\
+                 (input_a * coef_a) +\
+                 (input_sc * coef_sc)
+    return risk_score
+
+# Calculate the chads-vasc score for a patient who has the following attributes:
+# Congestive heart failure? No
+# Hypertension: yes
+# Age 75 or older: no
+# Diabetes mellitus: no
+# Stroke: no
+# Vascular disease: yes
+# Age 65 to 74: no
+# Female? : yes
+
+# Calculate the patient's Chads-vasc risk score
+tmp_c = 0
+tmp_h = 1
+tmp_a2 = 0
+tmp_d = 0
+tmp_s2 = 0
+tmp_v = 1
+tmp_a = 0
+tmp_sc = 1
+
+print(f"The chads-vasc score for this patient is",
+      f"{chads_vasc_score(tmp_c, tmp_h, tmp_a2, tmp_d, tmp_s2, tmp_v, tmp_a, tmp_sc)}")</textarea>
+        </div>
+
+        <div style="border: 1px solid black; padding: 15px; margin-bottom: 15px; cursor: pointer;" 
+             onclick="copyCode(this, 'code8')" 
+             onmouseover="this.style.backgroundColor='#f0f0f0'" 
+             onmouseout="this.style.backgroundColor='white'">
+            <div style="font-size: 1.1em; font-weight: bold; padding: 10px;">
+                8. Analysis of Liver Disease - MELD Score
+            </div>
+            <textarea id="code8" style="position: absolute; left: -9999px;">import numpy as np
+
+def liver_disease_mortality(input_creatine, input_bilirubin, input_inr):
+    """
+    Calculate the probability of mortality given that the patient has
+    liver disease.
+    Parameters:
+        Creatine: mg/dL
+        Bilirubin: mg/dL
+        INR:
+    """
+    # Coefficient values
+    coef_creatine = 0.957
+    coef_bilirubin = 0.378
+    coef_inr = 1.12
+    intercept = 0.643
+    # Calculate the natural logarithm of input variables
+    log_cre = np.log(input_creatine)
+    log_bil = np.log(input_bilirubin)
+
+    # TODO: Calculate the natural log of input_inr
+    log_inr = np.log(input_inr)
+
+    # Compute output
+    meld_score = (coef_creatine * log_cre) +\
+                 (coef_bilirubin * log_bil ) +\
+                 (coef_inr * log_inr) +\
+                 intercept
+
+    # TODO: Multiply meld_score by 10 to get the final risk score
+    meld_score = meld_score * 10
+
+    return meld_score
+
+# For a patient who has
+# Creatinine: 1 mg/dL
+# Bilirubin: 2 mg/dL
+# INR: 1.1
+# Calculate their MELD score
+
+tmp_meld_score = liver_disease_mortality(1.0, 2.0, 1.1)
+print(f"The patient's MELD score is: {tmp_meld_score:.2f}")</textarea>
+        </div>
+
+        <div style="border: 1px solid black; padding: 15px; margin-bottom: 15px; cursor: pointer;" 
+             onclick="copyCode(this, 'code9')" 
+             onmouseover="this.style.backgroundColor='#f0f0f0'" 
+             onmouseout="this.style.backgroundColor='white'">
+            <div style="font-size: 1.1em; font-weight: bold; padding: 10px;">
+                9. Analysis of Heart Disease - ASCVD Risk Score
+            </div>
+            <textarea id="code9" style="position: absolute; left: -9999px;">import numpy as np
+
+def ascvd(x_age,
+          x_cho,
+          x_hdl,
+          x_sbp,
+          x_smo,
+          x_dia,
+          verbose=False
+         ):
+    """
+    Atherosclerotic Cardiovascular Disease
+    (ASCVD) Risk Estimator Plus
+    """
+    # Define the coefficients
+    b_age = 17.114
+    b_cho = 0.94
+    b_hdl = -18.92
+    b_age_hdl = 4.475
+    b_sbp = 27.82
+    b_age_sbp = -6.087
+    b_smo = 0.691
+    b_dia = 0.874
+    # Calculate the sum of the products of inputs and coefficients
+    sum_prod =  b_age * np.log(x_age) + \
+                b_cho * np.log(x_cho) + \
+                b_hdl * np.log(x_hdl) + \
+                b_age_hdl * np.log(x_age) * np.log(x_hdl) +\
+                b_sbp * np.log(x_sbp) +\
+                b_age_sbp * np.log(x_age) * np.log(x_sbp) +\
+                b_smo * x_smo + \
+                b_dia * x_dia
+    if verbose:
+        print(f"np.log(x_age):{np.log(x_age):.2f}")
+        print(f"np.log(x_cho):{np.log(x_cho):.2f}")
+        print(f"np.log(x_hdl):{np.log(x_hdl):.2f}")
+        print(f"np.log(x_age) * np.log(x_hdl):{np.log(x_age) * np.log(x_hdl):.2f}")
+        print(f"np.log(x_sbp): {np.log(x_sbp):2f}")
+        print(f"np.log(x_age) * np.log(x_sbp): {np.log(x_age) * np.log(x_sbp):.2f}")
+        print(f"sum_prod {sum_prod:.2f}")
+    # TODO: Risk Score = 1 - (0.9533^( e^(sum - 86.61) ) )
+    risk_score = 1 - (0.9533**(np.exp(sum_prod - 86.61) ) )
+    return risk_score 
+
+tmp_risk_score = ascvd(x_age=55,
+                      x_cho=213,
+                      x_hdl=50,
+                      x_sbp=120,
+                      x_smo=0,
+                      x_dia=0,
+                      verbose=True
+                      )
+print(f"\npatient's ascvd risk score is {tmp_risk_score:.2f}")</textarea>
+        </div>
+    </div>
+
+    <div id="notification" style="position: fixed; top: 20px; right: 20px; border: 2px solid black; background: white; padding: 15px 25px; display: none;">
+        ✓ Code copied to clipboard!
+    </div>
+
+    <script>
+        function copyCode(element, codeId) {
+            const textarea = document.getElementById(codeId);
+            textarea.select();
+            document.execCommand('copy');
+            
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            
+            setTimeout(function() {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
